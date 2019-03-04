@@ -1,14 +1,26 @@
 import csv
 from gos_my_visors.visor import Visor
-from gos_my_visors.visor_collection import Visors
+from gos_my_visors.visorcollection import VisorCollection
+from gos_my_visors.sultan_window import SultanWindow
+from gos_my_visors.sultan import Sultan
 from tkinter import *
+from tkinter import font
 
 visor_collection = None
 frame = None
 root = None
 
+
 def load(visors):
     pass
+
+
+def new():
+    temp = [visor_collection.get('Piyale'), visor_collection.get('Veli'), visor_collection.get('Hocas'),
+            visor_collection.get('Ahmelek'), visor_collection.get('Lala')]
+    new_visor_collection = VisorCollection(temp)
+    sultan = Sultan(name='Dr Pooh Bear', visors=new_visor_collection)
+    sultan_frame = SultanWindow(sultan)
 
 
 def init():
@@ -67,8 +79,8 @@ def init():
                         base['prestige levels'].append(1)
                 visor = Visor(**base)
                 visors.append(visor)
-    visor_collection = Visors(visors)
-    print("Good")
+    visor_collection = VisorCollection(visors)
+
 
 
 def main():
@@ -76,6 +88,8 @@ def main():
     global frame
     global root
     root = Tk()
+    print(font.families(root))
+    root.title('GoS Manager')
     frame = Frame(root)
     frame.grid()
 
@@ -87,21 +101,21 @@ def main():
     tl.grid(row=1, column=0)
     t.grid(row=1, column=1)
 
-    b = Button(frame, text="New Game")
+    b = Button(frame, text="New Game", command=new)
     b.grid(row=2, column=0)
 
     b2 = Button(frame, text="Load Game")
     b2.grid(row=2, column=1)
-
-    v = []
-    table = Frame(frame)
-    table.grid(row=3, columnspan=2)
-    index = 0
-    for name, visor in visor_collection.visors.items():
-        cb =Checkbutton(table).grid(row=index, column=0)
-        temp = Label(table, text=name).grid(row=index, column=1)
-        v.append(temp)
-        index += 1
+    #
+    # v = []
+    # table = Frame(frame)
+    # table.grid(row=3, columnspan=2)
+    # index = 0
+    # for name, visor in visor_collection.visors.items():
+    #     cb =Checkbutton(table).grid(row=index, column=0)
+    #     temp = Label(table, text=name).grid(row=index, column=1)
+    #     v.append(temp)
+    #     index += 1
     # if visor_collection is not None:
     #     index = 0
     #     for name, visor in visor_collection.visors.items():
